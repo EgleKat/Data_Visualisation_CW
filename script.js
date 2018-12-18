@@ -19,7 +19,7 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 
 		prisonChart
 		.width(768)
-		.height(500)
+		.height(480)
 		.dimension(nationalityDimension)
 		.group(nationalityCount)
 		.colors(accent)
