@@ -1,0 +1,18 @@
+.dc-chart g.row text 
+{
+	fill: black;
+}
+div.dc-chart
+{
+	float:none;
+}
+.chart
+{
+	padding: 5px;
+	height:auto;
+	position:relative;
+}
+.h3 
+{
+	float:left;
+}
