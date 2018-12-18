@@ -35,6 +35,7 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 		.render();
 	 	prisonChart.xAxis().scale(prisonChart.x())
 		AddXAxis(prisonChart, "Number of People");
+		AddYAxis(prisonChart, "Nationality");
 		
 		//bar graph
 		var regionDimension = ndx.dimension(function(d) {return d["Region"];} );
