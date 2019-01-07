@@ -1,0 +1,10 @@
+Status,Nationality,Ratio
+Employed,UK,75.8
+Employed,EU,82.8
+Employed,Non-EU,64.1
+Unemployed,UK,4.2
+Unemployed,EU,3.5
+Unemployed,Non-EU,6.8
+Economically Inactive,UK,20.7
+Economically Inactive,EU,14.1
+Economically Inactive,Non-EU,31.3
