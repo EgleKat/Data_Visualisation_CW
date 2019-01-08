@@ -46,7 +46,7 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 		.dimension(regionDimension)
 		.group(nationalityPercentage)
 		.xAxisLabel("Nationality")
-		.yAxisLabel("Percentage")
+		.yAxisLabel("",30)
 		.colors(accent)
 		.outerPadding(5)
 		.colorAccessor(function(d,i) {
@@ -56,7 +56,7 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 			return "foreign";
 		})
 		.render();
-
+		AddYAxis(prisonChartBar,"Percentage");
 	});
 
 
@@ -109,3 +109,31 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 // 	chart.render();
 
 // });
+
+d3.csv("data/nhs_expenditure_nationality.csv").then(function(data) {
+
+	var nhsBarChart = dc.barChart("#nhs_bar_chart");
+
+	var ndx = crossfilter(data);
+
+	var nationalityDimension = ndx.dimension(function(d) {return d["Nationality"];} );
+	var expenditureGroup = nationalityDimension.group().reduceSum(function(d){return d["Cost"];});
+
+	nhsBarChart
+	.width(600)
+	.height(600)
+	.xUnits(dc.units.ordinal)
+	.x(d3.scaleBand())
+	.elasticX(true)
+	.elasticY(true)
+	.dimension(nationalityDimension)
+	.group(expenditureGroup)
+	.xAxisLabel("Nationality",20)
+	.yAxisLabel("",50)
+	.outerPadding(5)
+	.render();
+
+	AddYAxis(nhsBarChart, "GBP (Millions)");
+
+
+});
