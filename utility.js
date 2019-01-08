@@ -24,4 +24,14 @@ function AddYAxis(chartToUpdate, displayText) {
 	chartToUpdate.svg()
 	.attr("width", chartToUpdate.width()+20)};
 
+function zoom() {
+  bars.attr("transform", "translate(" + d3.event.translate[0]+",0)scale(" + d3.event.scale + ",1)");
+
+  chart.select(".x.axis")
+    .attr("transform", "translate(" + d3.event.translate[0]+","+(height)+")")
+    .call(xAxis.scale(x.rangeRoundBands([0, width * d3.event.scale],.1 * d3.event.scale)));
+
+  chart.select(".y.axis")
+    .call(yAxis);
+}
 //<text transform="translate(12,184),rotate(-90)" class="y-axis-label y-label" text-anchor="middle">Percentage</text>
