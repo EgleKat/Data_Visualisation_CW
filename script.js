@@ -136,4 +136,24 @@ d3.csv("data/nhs_expenditure_nationality.csv").then(function(data) {
 	AddYAxis(nhsBarChart, "GBP (Millions)");
 
 
+	var nhsBarChartLog=dc.barChart("#nhs_bar_chart_log");
+	var expenditureGroupLog = nationalityDimension.group().reduceSum(function(d){return d["Cost"];});
+
+	nhsBarChartLog
+	.width(600)
+	.height(600)
+	.xUnits(dc.units.ordinal)
+	.x(d3.scaleBand())
+	.y(d3.scale.log().domain([1,10000]))
+	.elasticX(true)
+	//.elasticY(true)
+	.dimension(nationalityDimension)
+	.group(expenditureGroupLog)
+	.xAxisLabel("Nationality",20)
+	.yAxisLabel("",50)
+	.outerPadding(5)
+	.render();
+
+	AddYAxis(nhsBarChartLog, "GBP (Millions)");		
+
 });
