@@ -59,8 +59,6 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 		})
 		.render();
 		AddYAxis(prisonChartBar,"Percentage");
-		nationalityDimension.filter("UK-Born British");
-		dc.renderAll();
 	});
 
 
