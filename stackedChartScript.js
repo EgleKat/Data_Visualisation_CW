@@ -19,7 +19,6 @@ var svg = d3.select("#employment_stacked_chart")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-console.log(data);
 // Transpose the data into layers
 // var dataset = d3.stack(["Employed", "Unemployed", "Economically Inactive"].map(function(economicStatus) {
 //   return data.map(function(d) {
@@ -36,7 +35,7 @@ dataset = stack(data);
 
 
 
-console.log(dataset);
+
 
 
 var x = d3.scaleOrdinal(d3.schemeAccent)
@@ -48,8 +47,6 @@ var x = d3.scaleOrdinal(d3.schemeAccent)
 // //.domain(dataset[0].map(function(d) { console.log(d); return d.x; }))
 // .range([10, width-10]);
 
-
-console.log("A");
   
 // var y = d3.scale.linear()
 // .domain([0, 100])
@@ -60,7 +57,6 @@ console.log("A");
 
 var colors = ["#d25c4d", "#f2b447", "#d9d574"];
 
-console.log("B");
 
 // Define and draw axes
 var yAxis = d3.svg.axis()
@@ -95,7 +91,7 @@ var rect = groups.selectAll("rect")
 .data(function(d) { return d; })
 .enter()
 .append("rect")
-.attr("x", function(d) { console.log(d);  return x(d.x); })
+.attr("x", function(d) { return x(d.x); })
 .attr("y", function(d) { return y(d.y0 + d.y); })
 .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
 .attr("width", x.rangeBand())

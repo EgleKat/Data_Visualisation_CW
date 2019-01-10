@@ -73,7 +73,6 @@ var svg = d3.select("#employment_stacked_chart")
 //   { year: "2015", redDelicious: "16", mcintosh: "19", oranges: "6", pears: "9" },
 //   { year: "2016", redDelicious: "19", mcintosh: "17", oranges: "5", pears: "7" },
 // ];
-console.log(data);
 
 
 // Transpose the data into layers
@@ -83,7 +82,6 @@ var dataset = d3.layout.stack()(["Employed", "Unemployed", "Economically Inactiv
   }); 
 }));
 
-console.log(dataset);
 // Set x, y and colors
 var x = d3.scale.ordinal()
   .domain(dataset[0].map(function(d) { return d.x; }))

@@ -34,4 +34,10 @@ function zoom() {
   chart.select(".y.axis")
     .call(yAxis);
 }
+
+function multivalue_filter(values) {
+    return function(v) {
+        return values.indexOf(v) !== -1;
+    };
+}
 //<text transform="translate(12,184),rotate(-90)" class="y-axis-label y-label" text-anchor="middle">Percentage</text>

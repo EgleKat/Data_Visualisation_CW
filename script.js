@@ -3,7 +3,7 @@
 d3.csv("data/prison_nationality.csv").then(function(data) {
 	
 		//dimensions
-		var accent = d3.scaleOrdinal(d3.schemeAccent).domain(["native", "foreign"]);
+		var accent = d3.scaleOrdinal(["#9a72ff","#ffce72"]).domain(["native", "foreign"]);
 		var ndx = crossfilter(data);
 		var nationalityDimension = ndx.dimension(function(d) {return d["Nationality"];});
 		var nationalityCount = nationalityDimension.group().reduceSum(function(d) {return d["Total"];});
@@ -17,6 +17,7 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 		.group(nationalityCount)
 		.colors(accent)
 		.elasticX(true)
+		.legend(dc.legend())
 		.colorAccessor(function(d,i) {
 			var obj = data.find(function(dataobj) {return dataobj["Nationality"] === d.key;});
 			if (obj["UK Nationals"] === "Yes") {
@@ -58,6 +59,8 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 		})
 		.render();
 		AddYAxis(prisonChartBar,"Percentage");
+		nationalityDimension.filter("UK-Born British");
+		dc.renderAll();
 	});
 
 
@@ -119,6 +122,7 @@ d3.csv("data/nhs_expenditure_nationality.csv").then(function(data) {
 
 	var nationalityDimension = ndx.dimension(function(d) {return d["Nationality"];} );
 	var expenditureGroup = nationalityDimension.group().reduceSum(function(d){return d["Cost"];});
+	var filterDimension = ndx.dimension(function(d) {return d["Nationality"];} );
 
 	nhsBarChart
 	.width(600)
@@ -135,6 +139,20 @@ d3.csv("data/nhs_expenditure_nationality.csv").then(function(data) {
 	.render();
 
 	AddYAxis(nhsBarChart, "GBP (Millions)");
+	filterDimension.filterFunction(multivalue_filter(["EU (visitors and residents)","Non-EU (~12% is covered)"]));
+	var budgetActive = false;
 
+	document.getElementById("nhs_button").addEventListener("click", function(){
+		if(!budgetActive){
+			//apply filter to exclude nhs budget
+			filterDimension.filterFunction(multivalue_filter(["EU (visitors and residents)","Non-EU (~12% is covered)"]));
+			budgetActive = true;
+		}else{
+			filterDimension.filterAll();
+			budgetActive = false;
+		}
+		dc.redrawAll();
+	}); 
+	dc.redrawAll();
 
 });
