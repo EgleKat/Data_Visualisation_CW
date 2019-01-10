@@ -11,19 +11,20 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 		var prisonChart = dc.rowChart("#prison_row_chart");
 
 		prisonChart
-		.width(768)
-		.height(480)
+		.width(800)
+		.height(600)
 		.dimension(nationalityDimension)
 		.group(nationalityCount)
 		.colors(accent)
-		.elasticX(false)
+		.elasticX(true)
 		.colorAccessor(function(d,i) {
-			if (data[i]["UK Nationals"] === "Yes") {
+			var obj = data.find(function(dataobj) {return dataobj["Nationality"] === d.key;});
+			if (obj["UK Nationals"] === "Yes") {
 				return "native";
 			}
 			return "foreign";
 		})
-		.x(d3.scaleLinear().domain([0,80000]).range([0,prisonChart.width()]))
+		.x(d3.scaleLinear().domain([0,80000]).range([0,prisonChart.width()-50]))
 		//.clipPadding(10)
 		.render();
 		prisonChart.xAxis().scale(prisonChart.x())
