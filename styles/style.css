@@ -1,3 +1,11 @@
+.main{
+	width:50%;
+	margin: 0 auto;
+}
+.tableauPlaceholder{
+	width: 150% !important;
+	margin-left: -20%;
+}
 .dc-chart g.row text 
 {
 	fill: black;
@@ -8,6 +16,8 @@ div.dc-chart
 }
 .chart
 {
+	display:inline-block;
+	width: 150% !important;
 	padding: 5px;
 	height:auto;
 	position:relative;
