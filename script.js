@@ -141,16 +141,23 @@ d3.csv("data/nhs_expenditure_nationality.csv").then(function(data) {
 	var budgetActive = false;
 
 	document.getElementById("nhs_button").addEventListener("click", function(){
-		if(!budgetActive){
+		if(budgetActive){
 			//apply filter to exclude nhs budget
 			filterDimension.filterFunction(multivalue_filter(["EU (visitors and residents)","Non-EU (~12% is covered)"]));
-			budgetActive = true;
+			budgetActive = false;
 		}else{
 			filterDimension.filterAll();
-			budgetActive = false;
+			budgetActive = true;
 		}
-		dc.redrawAll();
+		redrawAll();
 	}); 
-	dc.redrawAll();
+	redrawAll();
 
 });
+
+var redrawAll = function() {
+	dc.redrawAll();
+	var svg = $('#prison_row_chart svg');
+	svg.attr("height", svg.height()+20);
+	
+}
