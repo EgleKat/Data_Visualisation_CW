@@ -91,8 +91,9 @@ var y = d3.scale.linear()
   .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
   .range([height, 0]);
 
-var colors = ["#d25c4d", "#f2b447", "#d9d574"];
+//var colors = ["#814bff", "#f2b447", "#d9d574"];
 
+var colors = ["#6865ff", "#ff5050", "#ffc04b"];
 
 // Define and draw axes
 var yAxis = d3.svg.axis()
@@ -161,9 +162,9 @@ legend.append("text")
   .style("text-anchor", "start")
   .text(function(d, i) { 
     switch (i) {
-      case 0: return "Employed";
+      case 2: return "Employed";
       case 1: return "Unemployed";
-      case 2: return "Economically Inactive";
+      case 0: return "Economically Inactive";
     }
   });
 

@@ -3,7 +3,7 @@
 d3.csv("data/prison_nationality.csv").then(function(data) {
 	
 		//dimensions
-		var accent = d3.scaleOrdinal(["#9a72ff","#ffce72"]).domain(["native", "foreign"]);
+		var accent = d3.scaleOrdinal(["#814bff","#ffc04b"]).domain(["native", "foreign"]);
 		var ndx = crossfilter(data);
 		var nationalityDimension = ndx.dimension(function(d) {return d["Nationality"];});
 		var nationalityCount = nationalityDimension.group().reduceSum(function(d) {return d["Total"];});
@@ -29,7 +29,6 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 		//.clipPadding(10)
 		.render();
 		prisonChart.xAxis().scale(prisonChart.x())
-		AddXAxis(prisonChart, "Number of People");
 		AddYAxis(prisonChart, "Nationality");	
 		
 		//bar graph
@@ -44,6 +43,7 @@ d3.csv("data/prison_nationality.csv").then(function(data) {
 		.height(400)
 		.xUnits(dc.units.ordinal)
 		.x(d3.scaleBand())
+		//	.y(d3.scaleLinear().range([0,100]))
 		.elasticX(true)
 		.dimension(regionDimension)
 		.group(nationalityPercentage)
@@ -134,6 +134,8 @@ d3.csv("data/nhs_expenditure_nationality.csv").then(function(data) {
 	.xAxisLabel("Nationality",20)
 	.yAxisLabel("",50)
 	.outerPadding(5)
+	.colors(d3.scaleOrdinal(["#ff9d0a","#9a8de6","#9172ff	","#cb3dff"]))
+	.colorAccessor(function (d, i){console.log(i);	return i;})
 	.render();
 
 	AddYAxis(nhsBarChart, "GBP (Millions)");
