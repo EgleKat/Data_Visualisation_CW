@@ -3,63 +3,68 @@
 d3.csv("data/prison_nationality.csv").then(function(data) {
 	
 		//dimensions
-		var accent = d3.scaleOrdinal(["#814bff","#ffc04b"]).domain(["native", "foreign"]);
-		var ndx = crossfilter(data);
-		var nationalityDimension = ndx.dimension(function(d) {return d["Nationality"];});
-		var nationalityCount = nationalityDimension.group().reduceSum(function(d) {return d["Total"];});
-		
-		var prisonChart = dc.rowChart("#prison_row_chart");
+		var accent = d3.scaleOrdinal(["#814bff","#ffc04b","#ffa41c"]).domain(["native", "foreign", "eu"]);
+			var ndx = crossfilter(data);
+			var nationalityDimension = ndx.dimension(function(d) {return d["Nationality"];});
+				var nationalityCount = nationalityDimension.group().reduceSum(function(d) {return d["Total"];});
 
-		prisonChart
-		.width(600)
-		.height(500)
-		.dimension(nationalityDimension)
-		.group(nationalityCount)
-		.colors(accent)
-		.elasticX(true)
-		.legend(dc.legend())
-		.colorAccessor(function(d,i) {
-			var obj = data.find(function(dataobj) {return dataobj["Nationality"] === d.key;});
-			if (obj["UK Nationals"] === "Yes") {
-				return "native";
-			}
-			return "foreign";
-		})
-		.x(d3.scaleLinear().domain([0,80000]).range([0,prisonChart.width()-50]))
+					var prisonChart = dc.rowChart("#prison_row_chart");
+
+						prisonChart
+						.width(600)
+							.height(500)
+								.dimension(nationalityDimension)
+									.group(nationalityCount)
+										.colors(accent)
+											.elasticX(true)
+												.legend(dc.legend())
+													.colorAccessor(function(d,i) {
+														var obj = data.find(function(dataobj) {return dataobj["Nationality"] === d.key;});
+														if(d.key === "EEA European"){
+															return "eu";
+														}
+														else if (obj["UK Nationals"] === "Yes") {
+															return "native";
+														}
+														return "foreign";
+													})
+													.x(d3.scaleLinear().domain([0,80000]).range([0,prisonChart.width()-50]))
 		//.clipPadding(10)
 		.render();
-		prisonChart.xAxis().scale(prisonChart.x())
-		AddYAxis(prisonChart, "Nationality");	
-		
+			prisonChart.xAxis().scale(prisonChart.x())
+				AddYAxis(prisonChart, "Nationality");	
+
 		//bar graph
 		var regionDimension = ndx.dimension(function(d) {return d["Region"];} );
-		var nationalityPercentage = regionDimension.group().reduceSum(function(d) {
-			return d["Total"]/d["Total in UK"]*100;});
+			var nationalityPercentage = regionDimension.group().reduceSum(function(d) {
+				return d["Total"]/d["Total in UK"]*100;});
 
-		var prisonChartBar = dc.barChart("#prison_bar_chart");
+				var prisonChartBar = dc.barChart("#prison_bar_chart");
 
-		prisonChartBar
-		.width(500)
-		.height(400)
-		.xUnits(dc.units.ordinal)
-		.x(d3.scaleBand())
+					prisonChartBar
+					.width(500)
+						.height(400)
+							.xUnits(dc.units.ordinal)
+								.x(d3.scaleBand())
 		//	.y(d3.scaleLinear().range([0,100]))
 		.elasticX(true)
-		.dimension(regionDimension)
-		.group(nationalityPercentage)
-		.xAxisLabel("Nationality")
-		.yAxisLabel("",30)
-		.colors(accent)
-		.outerPadding(5)
-		.colorAccessor(function(d,i) {
-			if(d.key === "UK-born") {
-				return "native";
-			}
-			return "foreign";
-		})
-		.render();
-		AddYAxis(prisonChartBar,"Percentage");
-	});
+			.dimension(regionDimension)
+				.group(nationalityPercentage)
+					.xAxisLabel("Nationality")
+						.yAxisLabel("",30)
+							.colors(accent)
+								.outerPadding(5)
+									.colorAccessor(function(d,i) {
+										if(d.key === "EEA European")
+											return "eu";
+										else if(d.key === "UK-born") {
+											return "native";
+										}
+										return "foreign";
+									})
+									.render();
+										AddYAxis(prisonChartBar,"Percentage");
+									});
 
 
 
@@ -116,34 +121,34 @@ d3.csv("data/nhs_expenditure_nationality.csv").then(function(data) {
 
 	var nhsBarChart = dc.barChart("#nhs_bar_chart");
 
-	var ndx = crossfilter(data);
+		var ndx = crossfilter(data);
 
-	var nationalityDimension = ndx.dimension(function(d) {return d["Nationality"];} );
-	var expenditureGroup = nationalityDimension.group().reduceSum(function(d){return d["Cost"];});
-	var filterDimension = ndx.dimension(function(d) {return d["Nationality"];} );
+		var nationalityDimension = ndx.dimension(function(d) {return d["Nationality"];} );
+			var expenditureGroup = nationalityDimension.group().reduceSum(function(d){return d["Cost"];});
+				var filterDimension = ndx.dimension(function(d) {return d["Nationality"];} );
 
-	nhsBarChart
-	.width(600)
-	.height(600)
-	.xUnits(dc.units.ordinal)
-	.x(d3.scaleBand())
-	.elasticX(true)
-	.elasticY(true)
-	.dimension(nationalityDimension)
-	.group(expenditureGroup)
-	.xAxisLabel("Nationality",20)
-	.yAxisLabel("",50)
-	.outerPadding(5)
-	.colors(d3.scaleOrdinal(["#ff9d0a","#9a8de6","#9172ff	","#cb3dff"]))
-	.colorAccessor(function (d, i){console.log(i);	return i;})
-	.render();
+					nhsBarChart
+					.width(600)
+						.height(600)
+							.xUnits(dc.units.ordinal)
+								.x(d3.scaleBand())
+									.elasticX(true)
+										.elasticY(true)
+											.dimension(nationalityDimension)
+												.group(expenditureGroup)
+													.xAxisLabel("Nationality",20)
+														.yAxisLabel("",50)
+															.outerPadding(5)
+																.colors(d3.scaleOrdinal(["#ff9d0a","#9a8de6","#9172ff	","#cb3dff"]))
+																	.colorAccessor(function (d, i){console.log(i);	return i;})
+																		.render();
 
-	AddYAxis(nhsBarChart, "GBP (Millions)");
-	filterDimension.filterFunction(multivalue_filter(["EU (visitors and residents)","Non-EU (~12% is covered)"]));
-	var budgetActive = false;
+																			AddYAxis(nhsBarChart, "GBP (Millions)");
+																			filterDimension.filterFunction(multivalue_filter(["EU (visitors and residents)","Non-EU (~12% is covered)"]));
+																				var budgetActive = false;
 
-	document.getElementById("nhs_button").addEventListener("click", function(){
-		if(budgetActive){
+																				document.getElementById("nhs_button").addEventListener("click", function(){
+																					if(budgetActive){
 			//apply filter to exclude nhs budget
 			filterDimension.filterFunction(multivalue_filter(["EU (visitors and residents)","Non-EU (~12% is covered)"]));
 			budgetActive = false;
@@ -157,9 +162,9 @@ d3.csv("data/nhs_expenditure_nationality.csv").then(function(data) {
 
 });
 
-var redrawAll = function() {
-	dc.redrawAll();
-	var svg = $('#prison_row_chart svg');
-	svg.attr("height", svg.height()+20);
-	
-}
+		var redrawAll = function() {
+			dc.redrawAll();
+			var svg = $('#prison_row_chart svg');
+			svg.attr("height", svg.height()+20);
+
+		}
